@@ -170,23 +170,37 @@
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            if(username.trim() !== '' && password.trim() !== '') {
-                const alert = document.getElementById('successAlert');
-                alert.style.display = 'block';
-                
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('username', username);
-                setTimeout(function() {
-                    window.location.href = 'home.html'; 
-                }, 2000);
-            } else {
-                alert('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!');
-            }
-        });
-    </script>
+    // Tài khoản quản trị. Muốn đổi mật khẩu admin thì sửa ở đây.
+    const ADMIN_USER = 'admin';
+    const ADMIN_PASS = 'admin123';
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (username === '' || password === '') {
+            alert('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!');
+            return;
+        }
+
+        const isAdminName = username.toLowerCase() === ADMIN_USER;
+        if (isAdminName && (username !== ADMIN_USER || password !== ADMIN_PASS)) {
+            alert('Sai mật khẩu tài khoản admin!');
+            return;
+        }
+
+        const box = document.getElementById('successAlert');
+        box.style.display = 'block';
+
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', username);
+        localStorage.setItem('role', isAdminName ? 'admin' : 'user');
+
+        setTimeout(function() {
+            window.location.href = isAdminName ? '../ADMIN/quanlisanpham.html' : 'home.html';
+        }, 2000);
+    });
+</script>
 </body>
 </html>

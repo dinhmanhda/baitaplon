@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trang chủ</title>
+<script src="auth.js"></script>
+<style>
+  :root {
+    --primary: #2c3e50;
+    --secondary: #3498db;
+    --secondary-dark: #2678b0;
+    --bg: #f8f9fa;
+    --card: #ffffff;
+    --text: #333333;
+    --muted: #6b7785;
+    --border: #dfe4ea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* Thanh điều hướng */
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,.15);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+  }
+  .brand { font-size: 1.3rem; font-weight: 600; }
+  .menu { display: flex; gap: 22px; flex-wrap: wrap; flex: 1; }
+  .menu a { padding: 6px 0; border-bottom: 2px solid transparent; opacity: .9; }
+  .menu a:hover, .menu a.active { border-bottom-color: var(--secondary); opacity: 1; }
+  .account { display: flex; align-items: center; gap: 10px; }
+  .btn {
+    display: inline-block;
+    padding: 9px 22px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+  }
+  .btn-primary { background: var(--secondary); color: #fff; }
+  .btn-primary:hover { background: var(--secondary-dark); }
+  .btn-outline { border-color: #fff; color: #fff; background: transparent; }
+  .btn-outline:hover { background: rgba(255,255,255,.15); }
+  .hello { font-size: .95rem; }
+
+  /* Banner */
+  .hero { background: var(--primary); color: #fff; padding: 72px 20px 80px; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .hero h1 { font-size: 2.4rem; line-height: 1.25; max-width: 640px; }
+  .hero p { margin-top: 14px; max-width: 560px; font-size: 1.1rem; opacity: .9; }
+  .hero-actions { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* Danh mục */
+  main { max-width: 1100px; margin: 0 auto; padding: 56px 20px 64px; }
+  main h2 { font-size: 1.5rem; color: var(--primary); margin-bottom: 20px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--secondary);
+    border-radius: 8px;
+    padding: 24px;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover, .card:focus-visible {
+    box-shadow: 0 6px 18px rgba(44,62,80,.12);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .card h3 { font-size: 1.15rem; color: var(--primary); margin-bottom: 6px; }
+  .card p { color: var(--muted); font-size: .95rem; }
+  .card.admin { border-top-color: #e74c3c; }
+
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,.8);
+    text-align: center;
+    padding: 20px;
+    font-size: .9rem;
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 48px 20px 56px; }
+    .hero h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">Văn Phòng Phẩm</a>
+    <nav class="menu" id="menu">
+      <a href="index.html" class="active">Trang chủ</a>
+      <a href="User/sanpham.html" data-need="user">Sản phẩm</a>
+      <a href="User/giohang.html" data-need="user">Giỏ hàng</a>
+      <a href="User/lienhe.html" data-need="user">Liên hệ</a>
+    </nav>
+    <div class="account" id="account"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Văn phòng phẩm chất lượng, mua sắm dễ dàng</h1>
+    <p>Chọn sản phẩm, thêm vào giỏ hàng và thanh toán nhanh chóng chỉ với vài bước.</p>
+    <div class="hero-actions" id="heroActions"></div>
+  </div>
+</section>
+
+<main>
+  <h2>Bạn muốn làm gì hôm nay?</h2>
+  <div class="grid" id="cards">
+    <a class="card" href="User/sanpham.html" data-need="user">
+      <h3>Sản phẩm</h3>
+      <p>Xem danh sách sản phẩm và chọn món bạn cần.</p>
+    </a>
+    <a class="card" href="User/giohang.html" data-need="user">
+      <h3>Giỏ hàng</h3>
+      <p>Kiểm tra các món đã chọn trước khi đặt mua.</p>
+    </a>
+    <a class="card" href="h.html" data-need="user">
+      <h3>Hóa đơn và thanh toán</h3>
+      <p>Xem hóa đơn và hoàn tất thanh toán đơn hàng.</p>
+    </a>
+    <a class="card" href="User/lienhe.html" data-need="user">
+      <h3>Liên hệ</h3>
+      <p>Gửi câu hỏi hoặc góp ý cho cửa hàng.</p>
+    </a>
+  </div>
+</main>
+
+<footer>© 2026 Văn Phòng Phẩm</footer>
+
+<script>
+  (function () {
+    var loginUrl = 'User/login.html';
+    var account = document.getElementById('account');
+    var heroActions = document.getElementById('heroActions');
+    var menu = document.getElementById('menu');
+    var cards = document.getElementById('cards');
+
+    function link(text, href, cls) {
+      var a = document.createElement('a');
+      a.href = href;
+      a.textContent = text;
+      a.className = cls;
+      return a;
+    }
+
+    if (Auth.isLoggedIn()) {
+      // Thanh trên cùng: tên người dùng + đăng xuất
+      var hello = document.createElement('span');
+      hello.className = 'hello';
+      hello.textContent = 'Xin chào, ' + (Auth.username() || 'bạn');
+      var out = document.createElement('button');
+      out.type = 'button';
+      out.className = 'btn btn-outline';
+      out.textContent = 'Đăng xuất';
+      out.onclick = Auth.logout;
+      account.appendChild(hello);
+      account.appendChild(out);
+
+      var shop = link('Mua sắm ngay', 'User/sanpham.html', 'btn btn-primary');
+      heroActions.appendChild(shop);
+
+      // Chỉ tài khoản admin mới thấy mục quản trị
+      if (Auth.isAdmin()) {
+        var m = link('Quản trị', 'ADMIN/quanlisanpham.html', '');
+        menu.appendChild(m);
+
+        var c1 = link('', 'ADMIN/quanlisanpham.html', 'card admin');
+        c1.innerHTML = '<h3>Quản lý sản phẩm</h3><p>Thêm, sửa và xóa sản phẩm của cửa hàng.</p>';
+        var c2 = link('', 'ADMIN/quanlikhachhang.html', 'card admin');
+        c2.innerHTML = '<h3>Quản lý khách hàng</h3><p>Xem và quản lý thông tin khách hàng.</p>';
+        cards.appendChild(c1);
+        cards.appendChild(c2);
+      }
+    } else {
+      account.appendChild(link('Đăng nhập', 'User/login.html', 'btn btn-outline'));
+      account.appendChild(link('Đăng ký', 'User/dangki.html', 'btn btn-primary'));
+
+      heroActions.appendChild(link('Đăng nhập để mua sắm', 'User/login.html', 'btn btn-primary'));
+      heroActions.appendChild(link('Tạo tài khoản', 'User/dangki.html', 'btn btn-outline'));
+    }
+
+    // Chưa đăng nhập mà nhấn vào mục cần đăng nhập thì chuyển sang trang đăng nhập
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[data-need]');
+      if (!a) return;
+      if (!Auth.isLoggedIn()) {
+        e.preventDefault();
+        location.href = loginUrl;
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
