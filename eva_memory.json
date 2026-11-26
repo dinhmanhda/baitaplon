@@ -1,0 +1,35 @@
+{
+  "user_info": {
+    "name": "Minh"
+  },
+  "lessons": [
+    "yêu thương là quan tâm",
+    "hạnh phúc đến từ điều nhỏ bé"
+  ],
+  "user_preferences": [
+    "thích: đọc sách",
+    "thích: đọc sách",
+    "thích: đọc sách",
+    "thích: đọc sách"
+  ],
+  "chat_history": [
+    "Tôi tên là Minh",
+    "Tôi thích đọc sách",
+    "Bạn có nhớ gì về tôi không?",
+    "Dạy tôi rằng yêu thương là quan tâm",
+    "Dạy tôi rằng hạnh phúc đến từ điều nhỏ bé",
+    "Bạn có nhớ gì về tôi không?",
+    "Tôi thích đọc sách",
+    "Dạy tôi rằng hạnh phúc đến từ điều nhỏ bé",
+    "Tôi tên là Minh",
+    "Tôi tên là Minh",
+    "Tôi thích đọc sách",
+    "Bạn có nhớ gì về tôi không?",
+    "Dạy tôi rằng hạnh phúc đến từ điều nhỏ bé",
+    "Dạy tôi rằng yêu thương là quan tâm",
+    "Tôi thích đọc sách"
+  ],
+  "conversation_count": 15,
+  "current_emotion": "yeu_thuong",
+  "learned_responses": {}
+}

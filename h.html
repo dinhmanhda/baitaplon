@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hệ thống mua hàng - Hóa đơn & Thanh toán</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+}
+
+/* Header */
+.header {
+    background: #d64000;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.cart-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background: #ff0;
+    color: #d64000;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Container chính */
+.container {
+    display: flex;
+    max-width: 1400px;
+    margin: 20px auto;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+/* Danh sách sản phẩm */
+.products-section {
+    flex: 2;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px;
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-card h3 {
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.product-price {
+    color: #d64000;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.btn {
+    background: #d64000;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background: #b33500;
+}
+
+/* Giỏ hàng */
+.cart-section {
+    flex: 1;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-title {
+    font-size: 13px;
+}
+
+.cart-item-price {
+    font-size: 12px;
+    color: #d64000;
+}
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quantity-btn {
+    background: #eee;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart-total {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #ddd;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.checkout-btn {
+    margin-top: 15px;
+    background: #28a745;
+}
+
+.checkout-btn:hover {
+    background: #218838;
+}
+
+/* Modal thanh toán */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-modal {
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.payment-methods {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.payment-method {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.payment-method.selected {
+    border-color: #d64000;
+    background: #fff5f0;
+}
+
+/* Hóa đơn */
+.invoice {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.invoice h4 {
+    margin-bottom: 15px;
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.invoice-table th, .invoice-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Toast thông báo */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: none;
+    z-index: 1100;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .cart-section {
+        position: static;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h2>🛍️ MyShop</h2>
+    <div class="cart-icon" onclick="openCart()">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Danh sách sản phẩm -->
+    <div class="products-section">
+        <h3>Sản phẩm nổi bật</h3>
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- Giỏ hàng -->
+    <div class="cart-section" id="cartSection">
+        <h3>🛒 Giỏ hàng</h3>
+        <div id="cartItems"></div>
+        <div class="cart-total" id="cartTotal">Tổng: 0₫</div>
+        <button class="btn checkout-btn" onclick="openCheckout()">Thanh toán</button>
+    </div>
+</div>
+
+<!-- Modal thanh toán -->
+<div id="checkoutModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>🧾 Thanh toán & Hóa đơn</h3>
+            <span class="close-modal" onclick="closeCheckout()">&times;</span>
+        </div>
+        
+        <form id="checkoutForm">
+            <div class="form-group">
+                <label>Họ tên *</label>
+                <input type="text" id="fullName" required placeholder="Nhập họ tên">
+            </div>
+            <div class="form-group">
+                <label>Số điện thoại *</label>
+                <input type="tel" id="phone" required placeholder="Nhập số điện thoại">
+            </div>
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="email" required placeholder="Nhập email">
+            </div>
+            <div class="form-group">
+                <label>Địa chỉ giao hàng *</label>
+                <input type="text" id="address" required placeholder="Nhập địa chỉ">
+            </div>
+            
+            <label>Phương thức thanh toán</label>
+            <div class="payment-methods">
+                <div class="payment-method selected" data-method="cod" onclick="selectPayment('cod')">
+                    💵 COD <br><small>Tiền mặt</small>
+                </div>
+                <div class="payment-method" data-method="bank" onclick="selectPayment('bank')">
+                    🏦 Chuyển khoản
+                </div>
+                <div class="payment-method" data-method="card" onclick="selectPayment('card')">
+                    💳 Thẻ tín dụng
+                </div>
+            </div>
+            
+            <div id="invoicePreview" class="invoice">
+                <h4>📄 Xem trước hóa đơn</h4>
+                <div id="invoicePreviewContent"></div>
+            </div>
+            
+            <button type="submit" class="btn checkout-btn" style="margin-top: 20px;">✅ Xác nhận & Thanh toán</button>
+        </form>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// Dữ liệu sản phẩm
+const products = [
+    { id: 1, name: "Mũ len nữ mùa đông", price: 13.99, image: "https://picsum.photos/id/20/300/300" },
+    { id: 2, name: "Nước hoa Latafa 100ml", price: 4.38, image: "https://picsum.photos/id/30/300/300" },
+    { id: 3, name: "Sữa rửa mặt trắng da", price: 8.50, image: "https://picsum.photos/id/29/300/300" },
+    { id: 4, name: "Son môi lì cao cấp", price: 5.99, image: "https://picsum.photos/id/26/300/300" },
+    { id: 5, name: "Kem dưỡng ẩm da", price: 12.99, image: "https://picsum.photos/id/27/300/300" },
+    { id: 6, name: "Set quà tặng 5 mùi", price: 24.99, image: "https://picsum.photos/id/28/300/300" }
+];
+
+// Giỏ hàng (lưu trong localStorage)
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// Hóa đơn đã tạo
+let invoices = JSON.parse(localStorage.getItem('invoices')) || [];
+
+// Phương thức thanh toán hiện tại
+let currentPaymentMethod = 'cod';
+
+// Hiển thị danh sách sản phẩm
+function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = products.map(product => `
+        <div class="product-card">
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <div class="product-price">$${product.price.toFixed(2)}</div>
+            <button class="btn" onclick="addToCart(${product.id})">🛒 Thêm vào giỏ</button>
+        </div>
+    `).join('');
+}
+
+// Thêm vào giỏ hàng
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({ ...product, quantity: 1 });
+    }
+    
+    saveCart();
+    renderCart();
+    showToast(`Đã thêm ${product.name} vào giỏ hàng!`);
+}
+
+// Xóa khỏi giỏ hàng
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    saveCart();
+    renderCart();
+}
+
+// Cập nhật số lượng
+function updateQuantity(productId, delta) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+            removeFromCart(productId);
+        } else {
+            saveCart();
+            renderCart();
+        }
+    }
+}
+
+// Hiển thị giỏ hàng
+function renderCart() {
+    const cartContainer = document.getElementById('cartItems');
+    const cartCount = document.getElementById('cartCount');
+    
+    if (cart.length === 0) {
+        cartContainer.innerHTML = '<p style="color:#999;">Giỏ hàng trống</p>';
+        cartCount.textContent = '0';
+        document.getElementById('cartTotal').innerHTML = 'Tổng: 0₫';
+        return;
+    }
+    
+    let total = 0;
+    let itemCount = 0;
+    
+    cartContainer.innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        itemCount += item.quantity;
+        return `
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    <div class="cart-item-title">${item.name}</div>
+                    <div class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</div>
+                </div>
+                <div class="cart-item-quantity">
+                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                    <button class="quantity-btn" onclick="removeFromCart(${item.id})" style="background:#ff4444; color:white;">🗑️</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    cartCount.textContent = itemCount;
+    document.getElementById('cartTotal').innerHTML = `Tổng: $${total.toFixed(2)}`;
+}
+
+// Lưu giỏ hàng
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Mở modal thanh toán
+function openCheckout() {
+    if (cart.length === 0) {
+        showToast('Vui lòng thêm sản phẩm vào giỏ hàng!');
+        return;
+    }
+    renderInvoicePreview();
+    document.getElementById('checkoutModal').style.display = 'flex';
+}
+
+// Đóng modal
+function closeCheckout() {
+    document.getElementById('checkoutModal').style.display = 'none';
+}
+
+// Chọn phương thức thanh toán
+function selectPayment(method) {
+    currentPaymentMethod = method;
+    document.querySelectorAll('.payment-method').forEach(el => {
+        el.classList.remove('selected');
+    });
+    document.querySelector(`[data-method="${method}"]`).classList.add('selected');
+    renderInvoicePreview();
+}
+
+// Hiển thị xem trước hóa đơn
+function renderInvoicePreview() {
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const tax = total * 0.1; // Thuế 10%
+    const shipping = total > 50 ? 0 : 5;
+    const grandTotal = total + tax + shipping;
+    
+    let paymentMethodText = '';
+    switch(currentPaymentMethod) {
+        case 'cod': paymentMethodText = 'COD (Tiền mặt khi nhận hàng)'; break;
+        case 'bank': paymentMethodText = 'Chuyển khoản ngân hàng'; break;
+        case 'card': paymentMethodText = 'Thẻ tín dụng / Ghi nợ'; break;
+    }
+    
+    const invoiceHtml = `
+        <table class="invoice-table">
+            <tr><th>Sản phẩm</th><th>Số lượng</th><th>Thành tiền</th></tr>
+            ${cart.map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                </tr>
+            `).join('')}
+            <tr><td colspan="2"><strong>Tạm tính</strong></td><td><strong>$${total.toFixed(2)}</strong></td></tr>
+            <tr><td colspan="2">Thuế VAT (10%)</td><td>$${tax.toFixed(2)}</td></tr>
+            <tr><td colspan="2">Phí vận chuyển</td><td>$${shipping.toFixed(2)}</td></tr>
+            <tr style="border-top:2px solid #ddd;"><td colspan="2"><strong>Tổng cộng</strong></td><td><strong style="color:#d64000;">$${grandTotal.toFixed(2)}</strong></td></tr>
+        </table>
+        <p style="margin-top:10px; font-size:12px; color:#666;">💳 Phương thức: ${paymentMethodText}</p>
+    `;
+    
+    document.getElementById('invoicePreviewContent').innerHTML = invoiceHtml;
+}
+
+// Xử lý thanh toán và tạo hóa đơn
+document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Lấy thông tin khách hàng
+    const customer = {
+        name: document.getElementById('fullName').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        address: document.getElementById('address').value
+    };
+    
+    // Tính toán tổng tiền
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const tax = subtotal * 0.1;
+    const shipping = subtotal > 50 ? 0 : 5;
+    const total = subtotal + tax + shipping;
+    
+    // Tạo hóa đơn
+    const invoice = {
+        invoiceNumber: 'INV-' + Date.now(),
+        date: new Date().toLocaleString('vi-VN'),
+        customer: customer,
+        items: [...cart],
+        subtotal: subtotal,
+        tax: tax,
+        shipping: shipping,
+        total: total,
+        paymentMethod: currentPaymentMethod,
+        status: 'paid'
+    };
+    
+    // Lưu hóa đơn
+    invoices.push(invoice);
+    localStorage.setItem('invoices', JSON.stringify(invoices));
+    
+    // Xuất file PDF (giả lập)
+    downloadInvoicePDF(invoice);
+    
+    // Xóa giỏ hàng
+    cart = [];
+    saveCart();
+    renderCart();
+    
+    // Đóng modal
+    closeCheckout();
+    
+    // Thông báo thành công
+    showToast(`✅ Thanh toán thành công! Mã hóa đơn: ${invoice.invoiceNumber}`);
+    
+    // Reset form
+    document.getElementById('checkoutForm').reset();
+});
+
+// Tải xuống hóa đơn (giả lập - thực tế cần thư viện jsPDF)
+function downloadInvoicePDF(invoice) {
+    // Tạo nội dung hóa đơn để xuất
+    let invoiceContent = `
+        ============================================
+                    HÓA ĐƠN MUA HÀNG
+        ============================================
+        Mã hóa đơn: ${invoice.invoiceNumber}
+        Ngày: ${invoice.date}
+        --------------------------------------------
+        THÔNG TIN KHÁCH HÀNG
+        Họ tên: ${invoice.customer.name}
+        Điện thoại: ${invoice.customer.phone}
+        Email: ${invoice.customer.email}
+        Địa chỉ: ${invoice.customer.address}
+        --------------------------------------------
+        CHI TIẾT ĐƠN HÀNG
+    `;
+    
+    invoice.items.forEach(item => {
+        invoiceContent += `
+        ${item.name}
+          Số lượng: ${item.quantity} x $${item.price.toFixed(2)} = $${(item.price * item.quantity).toFixed(2)}
+        `;
+    });
+    
+    invoiceContent += `
+        --------------------------------------------
+        Tạm tính: $${invoice.subtotal.toFixed(2)}
+        Thuế VAT (10%): $${invoice.tax.toFixed(2)}
+        Phí vận chuyển: $${invoice.shipping.toFixed(2)}
+        TỔNG CỘNG: $${invoice.total.toFixed(2)}
+        --------------------------------------------
+        Phương thức thanh toán: ${invoice.paymentMethod}
+        Trạng thái: Đã thanh toán
+        ============================================
+        Cảm ơn quý khách! Hẹn gặp lại!
+    `;
+    
+    // Tạo file .txt (có thể đổi thành .pdf với thư viện)
+    const blob = new Blob([invoiceContent], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${invoice.invoiceNumber}.txt`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    
+    // Hiển thị thông báo
+    console.log('Đã tạo hóa đơn:', invoice);
+}
+
+// Hiển thị thông báo
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 3000);
+}
+
+// Mở giỏ hàng (scroll)
+function openCart() {
+    document.getElementById('cartSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Khởi tạo trang
+renderProducts();
+renderCart();
+
+// Đóng modal khi click bên ngoài
+window.onclick = function(event) {
+    const modal = document.getElementById('checkoutModal');
+    if (event.target === modal) {
+        closeCheckout();
+    }
+}
+</script>
+</body>
+</html>

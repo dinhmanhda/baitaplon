@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Văn Phòng Việt - Văn phòng phẩm chất lượng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="website icon"  href="/IMG/logo.png" type="png">
+    <style>
+        :root {
+            --primary: #ff6b00;
+            --secondary: #3a3a3a;
+            --dark: #2b2b2b;
+            --light: #f8f9fa;
+            --text: #333;
+            --text-light: #6c757d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        .navbar {
+            padding: 0.8rem 0;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.97);
+            box-shadow: var(--shadow);
+        }
+        .navbar.scrolled {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand img {
+            height: 45px;
+            transition: var(--transition);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            color: var(--text) !important;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary) !important;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .nav-icon {
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-left: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-icon:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            font-size: 0.7rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-content {
+            margin-top: 80px;
+        }
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            height: fit-content;
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: var(--transition);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: rgba(255, 107, 0, 0.1);
+            color: var(--primary);
+            padding-left: 1.2rem;
+        }
+        .product-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-img-container {
+            height: 200px;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        
+        .product-img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .product-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+        
+        .product-desc {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .add-to-cart {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #e05d00;
+            transform: translateY(-2px);
+        }
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-logo {
+            height: 50px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-about {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-icon {
+            color: white;
+            font-size: 1.3rem;
+            margin-right: 1rem;
+            transition: var(--transition);
+        }
+        
+        .social-icon:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: var(--transition);
+        }
+        
+        .footer-link:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+        
+        .contact-info {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .contact-icon {
+            color: var(--primary);
+            margin-right: 0.8rem;
+            font-size: 1.1rem;
+            margin-top: 0.2rem;
+        }
+        
+        .newsletter-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .newsletter-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #e05d00;
+            transform: translateY(-2px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 991.98px) {
+            .sidebar {
+                margin-bottom: 2rem;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .navbar-brand img {
+                height: 40px;
+            }
+            
+            .main-content {
+                margin-top: 70px;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .footer {
+                padding: 2rem 0 1rem;
+            }
+            
+            .footer-logo {
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="home.html">
+                <img src="/IMG/logo.png" alt="Văn Phòng Việt">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="home.html">TRANG CHỦ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">KHUYẾN MẠI THÁNG 03</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">SP ĐI TỪ THIỆN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">GIỚI THIỆU</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">BÁO GIÁ - PHÍ SHIP</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">LIÊN HỆ</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="dangki.html" class="nav-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <a href="giohang.html" class="nav-icon position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container main-content">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h2 class="sidebar-title">DANH MỤC SẢN PHẨM</h2>
+                    <a href="#" class="sidebar-link active">VỞ HỌC SINH</a>
+                    <a href="#" class="sidebar-link">ĐỒ DÙNG HỌC TẬP</a>
+                    <a href="#" class="sidebar-link">DỤNG CỤ CHO GIÁO VIÊN</a>
+                    <a href="#" class="sidebar-link">BALO - CẶP SÁCH</a>
+                    <a href="#" class="sidebar-link">VĂN PHÒNG PHẨM</a>
+                    <a href="#" class="sidebar-link">THIẾT BỊ GIÁO DỤC</a>
+                    <a href="#" class="sidebar-link">QUÀ TẶNG</a>
+                    <a href="#" class="sidebar-link">SẢN PHẨM KHUYẾN MÃI</a>
+                    <h2 class="sidebar-title mt-4">LỌC THEO GIÁ</h2>
+                    <a href="#" class="sidebar-link">Dưới 50.000đ</a>
+                    <a href="#" class="sidebar-link">50.000đ - 100.000đ</a>
+                    <a href="#" class="sidebar-link">100.000đ - 200.000đ</a>
+                    <a href="#" class="sidebar-link">Trên 200.000đ</a>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container position-relative">
+                                <img src="/IMG/balocankeo.jpg" alt="Balo cần kéo Bilox" class="product-img">
+                                <span class="product-badge">Mới</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Balo cần kéo Bilox</h5>
+                                <p class="product-desc">Kích thước: 41 x 30 x 13cm, nặng 1.070 gam. Chất liệu bền đẹp, nhiều ngăn tiện dụng.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.9</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 1024</span>
+                                </div>
+                                <div class="product-price">599.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container position-relative">
+                                <img src="/IMG/vokenganghaitien.jpg" alt="Vở kẻ ngang Hải Tiến" class="product-img">
+                                <span class="product-badge">Bán chạy</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Vở kẻ ngang Hải Tiến 60 trang</h5>
+                                <p class="product-desc">Biển đảo quê hương 2418 - BL 60gsm. Mua từ 240 quyển chiết khấu 5%.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.7</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 876</span>
+                                </div>
+                                <div class="product-price">4.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container position-relative">
+                                <img src="/IMG/butbithienlong.jpg" alt="Bút bi Thiên Long TL-027" class="product-img">
+                                <span class="product-badge">Bán chạy</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Bút bi Thiên Long TL-027</h5>
+                                <p class="product-desc">Bút bi đầu nhỏ, mực ra đều, nét chữ 0.5mm. Mực không lem, khô nhanh, bền màu.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.8</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 1,245</span>
+                                </div>
+                                <div class="product-price">5.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                <img src="/IMG/tapvocampus.jpg" alt="Tập vở Campus 200 trang" class="product-img">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Tập vở Campus 200 trang</h5>
+                                <p class="product-desc">Giấy dày 80gsm, không thấm mực, bìa cứng cán bóng, kẻ ngang 8mm.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.7</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 987</span>
+                                </div>
+                                <div class="product-price">25.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container position-relative">
+                                <img src="/IMG/bothuockehocsinh.jpg" alt="Bộ thước kẻ học sinh" class="product-img">
+                                <span class="product-badge">Mới</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Bộ thước kẻ học sinh</h5>
+                                <p class="product-desc">Bộ 3 cây (15cm, 20cm, 30cm) bằng nhựa trong, có vạch chia mm chính xác.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.5</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 654</span>
+                                </div>
+                                <div class="product-price">12.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                <img src="/IMG/hopbutdanghopmau.jpg" alt="Hộp bút dạng hộp màu" class="product-img">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Hộp bút dạng hộp màu</h5>
+                                <p class="product-desc">Chất liệu nhựa cao cấp, 2 tầng chứa đồ, nhiều ngăn tiện dụng, thiết kế đẹp mắt.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.6</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 723</span>
+                                </div>
+                                <div class="product-price">45.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container position-relative">
+                                <img src="/IMG/anhbutchi.jpg" alt="Bút chì gỗ 2B" class="product-img">
+                                <span class="product-badge">Giảm 15%</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Bút chì gỗ 2B (12 cây/hộp)</h5>
+                                <p class="product-desc">Bút chì chất lượng cao, ruột mềm, dễ tẩy, phù hợp cho học sinh và họa sĩ.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.9</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 1,102</span>
+                                </div>
+                                <div class="product-price">36.000 ₫ <small class="text-decoration-line-through text-muted">42.000 ₫</small></div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                <img src="/IMG/compavekithuat.jpg" alt="Compa vẽ kỹ thuật" class="product-img">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Compa vẽ kỹ thuật</h5>
+                                <p class="product-desc">Compa kim loại cao cấp, điều chỉnh linh hoạt, kèm đầu chì và đầu kim.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.7</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 589</span>
+                                </div>
+                                <div class="product-price">28.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                <img src="/IMG/bothuchanhtoan5.jpg" alt="Bộ đồ dùng thực hành Toán lớp 5" class="product-img">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Bộ đồ dùng thực hành Toán lớp 5</h5>
+                                <p class="product-desc">Theo TT 37/2021/TT-BGDĐT. Đầy đủ dụng cụ học tập cho học sinh lớp 5.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.8</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 754</span>
+                                </div>
+                                <div class="product-price">33.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container position-relative">
+                                <img src="/IMG/bododungtoan4.jpg" alt="Bộ đồ dùng thực hành Toán lớp 4" class="product-img">
+                                <span class="product-badge">Giảm 10%</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Bộ đồ dùng thực hành Toán lớp 4</h5>
+                                <p class="product-desc">Theo TT 37/2021/TT-BGDĐT. Đầy đủ dụng cụ học tập cho học sinh lớp 4.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.6</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 689</span>
+                                </div>
+                                <div class="product-price">35.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                <img src="/IMG/bokithuat.jpg" alt="Bộ thiết bị điện lắp ghép mô hình kỹ thuật" class="product-img">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Bộ thiết bị điện lắp ghép mô hình kỹ thuật</h5>
+                                <p class="product-desc">Lớp 4&5 - Theo TT 37/2021/TT-BGDĐT. Dễ sử dụng, an toàn cho học sinh.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.9</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 932</span>
+                                </div>
+                                <div class="product-price">135.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container position-relative">
+                                <img src="/IMG/vokengang.jpg" alt="Vở kẻ ngang Classmate 120 trang" class="product-img">
+                                <span class="product-badge">Mới</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="product-title">Vở kẻ ngang Classmate 120 trang</h5>
+                                <p class="product-desc">Thiết kế Van Gogh NB6 12.0302. Định lượng 70gsm - Bìa vở cán vân chống nước.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><i class="fas fa-star text-warning"></i> 4.8</span>
+                                    <span><i class="fas fa-eye text-muted"></i> 812</span>
+                                </div>
+                                <div class="product-price">12.000 ₫</div>
+                                <button class="btn add-to-cart"><i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                    <img src="/IMG/logo.png" alt="Văn Phòng Việt" class="footer-logo">
+                    <p class="footer-about">Chuyên cung cấp các sản phẩm văn phòng phẩm chất lượng cao với giá cả hợp lý, phục vụ mọi nhu cầu học tập và làm việc.</p>
+                    <div>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+                    <h3 class="footer-title">Liên kết</h3>
+                    <a href="home.html" class="footer-link">Trang chủ</a>
+                    <a href="#" class="footer-link">Sản phẩm</a>
+                    <a href="#" class="footer-link">Giới thiệu</a>
+                    <a href="#" class="footer-link">Tin tức</a>
+                    <a href="#" class="footer-link">Liên hệ</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+                    <h3 class="footer-title">Liên Hệ</h3>
+                    <div class="contact-info">
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <span>Tân Lập, Thanh Sơn, Phú Thọ</span>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-phone contact-icon"></i>
+                        <span>0333 106 862</span>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <span>linhdgea1106@gmail.com</span>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="footer-title">Đăng ký nhận tin</h3>
+                    <p class="text-white-50 mb-3">Đăng ký để nhận thông tin khuyến mãi mới nhất</p>
+                    <form class="newsletter-form">
+                        <input type="email" class="form-control newsletter-input mb-3" placeholder="Nhập email của bạn">
+                        <button type="submit" class="btn newsletter-btn">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="text-center copyright">
+                <p>&copy; Văn Phòng Việt. </p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                    $('.navbar-brand img').css('height', '40px');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                    $('.navbar-brand img').css('height', '45px');
+                }
+            });
+            $('.add-to-cart').click(function() {
+                const $product = $(this).closest('.product-card');
+                const productName = $product.find('.product-title').text();
+                const productPrice = $product.find('.product-price').text();
+                alert(`Đã thêm ${productName} (${productPrice}) vào giỏ hàng`);
+                const $cartCount = $('.cart-count');
+                let count = parseInt($cartCount.text()) || 0;
+                $cartCount.text(count + 1);
+                $(this).html('<i class="fas fa-check me-2"></i>Đã thêm');
+                $(this).css('background-color', '#27ae60');
+                
+                setTimeout(() => {
+                    $(this).html('<i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ');
+                    $(this).css('background-color', '#ff6b00');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html> 

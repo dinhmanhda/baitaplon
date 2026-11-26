@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Khách Hàng - Văn Phòng Phẩm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        /* Custom Header */
+        .custom-header {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0;
+            color: white;
+        }
+        
+        .user-info {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .user-info .dropdown-menu {
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: none;
+        }
+        
+        .user-info .dropdown-item {
+            padding: 0.5rem 1rem;
+        }
+        
+        .user-info .dropdown-item i {
+            width: 20px;
+            text-align: center;
+            margin-right: 8px;
+        }
+        
+        /* Custom Navigation */
+        .custom-nav {
+            background-color: var(--dark-color);
+        }
+        
+        .custom-nav .nav-link {
+            color: white;
+            padding: 0.75rem 1.25rem;
+            transition: background-color 0.3s;
+        }
+        
+        .custom-nav .nav-link:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .custom-nav .nav-link.active {
+            background-color: var(--secondary-color);
+        }
+        
+        .custom-nav .nav-link i {
+            margin-right: 8px;
+        }
+        
+        /* Page Title */
+        .page-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-title i {
+            margin-right: 10px;
+        }
+        
+        /* Custom Cards */
+        .custom-card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .custom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        /* Custom Table */
+        .custom-table {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .custom-table thead th {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+        }
+        
+        .custom-table tbody tr:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status.active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status.inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status.vip {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .action-btn.edit {
+            color: var(--secondary-color);
+        }
+        
+        .action-btn.delete {
+            color: var(--accent-color);
+        }
+        
+        .action-btn.view {
+            color: var(--success-color);
+        }
+        
+        .action-btn:hover {
+            background-color: rgba(0,0,0,0.1);
+        }
+        
+        /* Custom Form */
+        .custom-form {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+        }
+        
+        /* Custom Modal */
+        .custom-modal .modal-content {
+            border: none;
+            border-radius: 8px;
+        }
+        
+        .custom-modal .modal-header {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .custom-modal .modal-footer {
+            border-top: 1px solid #eee;
+        }
+        
+        /* Custom Buttons */
+        .btn-primary-custom {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .btn-danger-custom {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-danger-custom:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+        
+        .btn-success-custom {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .btn-success-custom:hover {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+        
+       
+        @media (max-width: 768px) {
+            .dashboard-cards .col-md-3 {
+                margin-bottom: 1rem;
+            }
+        }
+        
+        
+        .customer-info-card {
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .customer-info-label {
+            font-weight: 500;
+            color: #6c757d;
+        }
+        
+        .customer-info-value {
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="custom-header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo d-flex align-items-center">
+                    <img src="/IMG/logo.png" alt="Logo" class="me-2" width="100px" height="auto">
+                    <h1>Quản Lý Khách Hàng</h1>
+                </div>
+                <div class="user-info dropdown">
+                    <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle me-2" style="font-size: 1.5rem;"></i>
+                        <span>Quản trị viên</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Tài khoản</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Cài đặt</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="custom-nav navbar navbar-expand-lg">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon text-white"><i class="fas fa-bars"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="quanlisanpham.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="quanlikhachhang.html"><i class="fas fa-users"></i> Khách Hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/User/sanpham.html"><i class="fas fa-box"></i> Sản Phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/User/home.html"><i class="action-icon"></i> Trở về tư cách khách</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-file-invoice-dollar"></i> Đơn Hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-chart-bar"></i> Báo Cáo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="py-4">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="page-title"><i class="fas fa-users"></i> Quản Lý Khách Hàng</h2>
+                <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+                    <i class="fas fa-plus me-2"></i>Thêm Khách Hàng
+                </button>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card custom-card h-100 text-center p-3">
+                        <div class="card-icon"><i class="fas fa-user-friends"></i></div>
+                        <h5 class="card-title text-muted">Tổng Khách Hàng</h5>
+                        <h3 class="card-value">156</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card custom-card h-100 text-center p-3">
+                        <div class="card-icon"><i class="fas fa-crown"></i></div>
+                        <h5 class="card-title text-muted">Khách VIP</h5>
+                        <h3 class="card-value">24</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card custom-card h-100 text-center p-3">
+                        <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <h5 class="card-title text-muted">Đơn hàng tháng</h5>
+                        <h3 class="card-value">128</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card custom-card h-100 text-center p-3">
+                        <div class="card-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <h5 class="card-title text-muted">Doanh thu tháng</h5>
+                        <h3 class="card-value">85.450.000 đ</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-form mb-4">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm khách hàng...">
+                            <button class="btn btn-primary-custom" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option selected>Lọc theo loại KH</option>
+                            <option>Khách thường</option>
+                            <option>Khách VIP</option>
+                            <option>Khách doanh nghiệp</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option selected>Sắp xếp theo</option>
+                            <option>Tên A-Z</option>
+                            <option>Tên Z-A</option>
+                            <option>Mua nhiều nhất</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive custom-table">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Mã KH</th>
+                            <th>Tên Khách Hàng</th>
+                            <th>Loại KH</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Email</th>
+                            <th>Tổng Chi Tiêu</th>
+                            <th>Trạng Thái</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>KH001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>Doanh nghiệp</td>
+                            <td>0912345678</td>
+                            <td>nguyenvana@example.com</td>
+                            <td>25.450.000 đ</td>
+                            <td><span class="status vip">VIP</span></td>
+                            <td>
+                                <button class="btn btn-sm action-btn view" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>KH002</td>
+                            <td>Trần Thị B</td>
+                            <td>Cá nhân</td>
+                            <td>0987654321</td>
+                            <td>tranthib@example.com</td>
+                            <td>8.200.000 đ</td>
+                            <td><span class="status active">Hoạt động</span></td>
+                            <td>
+                                <button class="btn btn-sm action-btn view" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>KH003</td>
+                            <td>Công Ty Cổ Phần C</td>
+                            <td>Doanh nghiệp</td>
+                            <td>0243823456</td>
+                            <td>contact@companyc.com</td>
+                            <td>42.750.000 đ</td>
+                            <td><span class="status vip">VIP</span></td>
+                            <td>
+                                <button class="btn btn-sm action-btn view" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>KH004</td>
+                            <td>Lê Văn D</td>
+                            <td>Cá nhân</td>
+                            <td>0905123456</td>
+                            <td>levand@example.com</td>
+                            <td>3.500.000 đ</td>
+                            <td><span class="status active">Hoạt động</span></td>
+                            <td>
+                                <button class="btn btn-sm action-btn view" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>KH005</td>
+                            <td>Phạm Thị E</td>
+                            <td>Cá nhân</td>
+                            <td>0978123456</td>
+                            <td>phamthie@example.com</td>
+                            <td>15.200.000 đ</td>
+                            <td><span class="status vip">VIP</span></td>
+                            <td>
+                                <button class="btn btn-sm action-btn view" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>KH006</td>
+                            <td>Trường Học F</td>
+                            <td>Tổ chức</td>
+                            <td>0243829999</td>
+                            <td>info@truongf.edu.vn</td>
+                            <td>38.600.000 đ</td>
+                            <td><span class="status vip">VIP</span></td>
+                            <td>
+                                <button class="btn btn-sm action-btn view" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Tiếp</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Add Customer Modal -->
+    <div class="modal fade custom-modal" id="addCustomerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user-plus me-2"></i>Thêm Khách Hàng Mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCustomerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="customerName" class="form-label">Họ và Tên / Tên công ty</label>
+                                <input type="text" class="form-control" id="customerName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="customerType" class="form-label">Loại khách hàng</label>
+                                <select class="form-select" id="customerType" required>
+                                    <option value="">Chọn loại khách hàng</option>
+                                    <option value="personal">Cá nhân</option>
+                                    <option value="business">Doanh nghiệp</option>
+                                    <option value="organization">Tổ chức</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="customerPhone" class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" id="customerPhone" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="customerEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="customerEmail">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="customerAddress" class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control" id="customerAddress">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="customerTaxCode" class="form-label">Mã số thuế (nếu có)</label>
+                                <input type="text" class="form-control" id="customerTaxCode">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="customerStatus" class="form-label">Trạng thái</label>
+                                <select class="form-select" id="customerStatus">
+                                    <option value="active" selected>Hoạt động</option>
+                                    <option value="inactive">Ngừng hoạt động</option>
+                                    <option value="vip">VIP</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="customerSource" class="form-label">Nguồn khách hàng</label>
+                                <select class="form-select" id="customerSource">
+                                    <option value="">Chọn nguồn</option>
+                                    <option value="website">Website</option>
+                                    <option value="social">Mạng xã hội</option>
+                                    <option value="referral">Giới thiệu</option>
+                                    <option value="walkin">Khách vãng lai</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="customerNotes" class="form-label">Ghi chú</label>
+                            <textarea class="form-control" id="customerNotes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary-custom">Lưu Khách Hàng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade custom-modal" id="viewCustomerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user me-2"></i>Thông Tin Khách Hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card customer-info-card mb-4 p-3">
+                                <div class="text-center mb-3">
+                                    <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Customer Avatar">
+                                    <h4 class="mt-3">Nguyễn Văn A</h4>
+                                    <span class="status vip">Khách VIP</span>
+                                </div>
+                                <div class="d-flex justify-content-center mb-3">
+                                    <button class="btn btn-sm btn-primary-custom me-2">Gửi Email</button>
+                                    <button class="btn btn-sm btn-success-custom">Gọi Điện</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card customer-info-card p-3 h-100">
+                                <h5 class="mb-4"><i class="fas fa-info-circle me-2"></i>Thông Tin Cơ Bản</h5>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <p class="customer-info-label">Mã KH:</p>
+                                        <p class="customer-info-value">KH001</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="customer-info-label">Loại KH:</p>
+                                        <p class="customer-info-value">Doanh nghiệp</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <p class="customer-info-label">Số điện thoại:</p>
+                                        <p class="customer-info-value">0912345678</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="customer-info-label">Email:</p>
+                                        <p class="customer-info-value">nguyenvana@example.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <p class="customer-info-label">Địa chỉ:</p>
+                                        <p class="customer-info-value">Số 123, đường ABC, quận XYZ, TP.HCM</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <p class="customer-info-label">Mã số thuế:</p>
+                                        <p class="customer-info-value">1234567890</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="customer-info-label">Nguồn KH:</p>
+                                        <p class="customer-info-value">Website</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="customer-info-label">Ghi chú:</p>
+                                        <p class="customer-info-value">Khách hàng thường xuyên đặt hàng số lượng lớn, ưu tiên giao hàng nhanh.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card customer-info-card mt-4 p-3">
+                        <h5 class="mb-4"><i class="fas fa-shopping-cart me-2"></i>Lịch Sử Mua Hàng</h5>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Mã ĐH</th>
+                                        <th>Ngày</th>
+                                        <th>Số lượng SP</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DH2023001</td>
+                                        <td>15/03/2023</td>
+                                        <td>25</td>
+                                        <td>8.750.000 đ</td>
+                                        <td><span class="status active">Hoàn thành</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>DH2023025</td>
+                                        <td>02/04/2023</td>
+                                        <td>42</td>
+                                        <td>12.300.000 đ</td>
+                                        <td><span class="status active">Hoàn thành</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>DH2023038</td>
+                                        <td>18/04/2023</td>
+                                        <td>15</td>
+                                        <td>4.400.000 đ</td>
+                                        <td><span class="status active">Đang giao</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary-custom">In Thông Tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade custom-modal" id="editCustomerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Cập Nhật Thông Tin Khách Hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCustomerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editCustomerName" class="form-label">Họ và Tên / Tên công ty</label>
+                                <input type="text" class="form-control" id="editCustomerName" value="Nguyễn Văn A" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editCustomerType" class="form-label">Loại khách hàng</label>
+                                <select class="form-select" id="editCustomerType" required>
+                                    <option value="personal">Cá nhân</option>
+                                    <option value="business" selected>Doanh nghiệp</option>
+                                    <option value="organization">Tổ chức</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editCustomerPhone" class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" id="editCustomerPhone" value="0912345678" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editCustomerEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editCustomerEmail" value="nguyenvana@example.com">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editCustomerAddress" class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control" id="editCustomerAddress" value="Số 123, đường ABC, quận XYZ, TP.HCM">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editCustomerTaxCode" class="form-label">Mã số thuế (nếu có)</label>
+                                <input type="text" class="form-control" id="editCustomerTaxCode" value="1234567890">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editCustomerStatus" class="form-label">Trạng thái</label>
+                                <select class="form-select" id="editCustomerStatus">
+                                    <option value="active">Hoạt động</option>
+                                    <option value="inactive">Ngừng hoạt động</option>
+                                    <option value="vip" selected>VIP</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editCustomerSource" class="form-label">Nguồn khách hàng</label>
+                                <select class="form-select" id="editCustomerSource">
+                                    <option value="website" selected>Website</option>
+                                    <option value="social">Mạng xã hội</option>
+                                    <option value="referral">Giới thiệu</option>
+                                    <option value="walkin">Khách vãng lai</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCustomerNotes" class="form-label">Ghi chú</label>
+                            <textarea class="form-control" id="editCustomerNotes" rows="3">Khách hàng thường xuyên đặt hàng số lượng lớn, ưu tiên giao hàng nhanh.</textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary-custom">Lưu Thay Đổi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade custom-modal" id="deleteCustomerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Xác Nhận Xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa khách hàng này không?</p>
+                    <p class="fw-bold">Nguyễn Văn A (KH001)</p>
+                    <p class="text-danger">Lưu ý: Tất cả thông tin và lịch sử mua hàng sẽ bị xóa vĩnh viễn!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger-custom">Xóa Khách Hàng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            const viewButtons = document.querySelectorAll('.action-btn.view');
+            viewButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const viewModal = new bootstrap.Modal(document.getElementById('viewCustomerModal'));
+                    viewModal.show();
+                });
+            });
+            const editButtons = document.querySelectorAll('.action-btn.edit');
+            editButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const editModal = new bootstrap.Modal(document.getElementById('editCustomerModal'));
+                    editModal.show();
+                });
+            });
+            const deleteButtons = document.querySelectorAll('.action-btn.delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteCustomerModal'));
+                    deleteModal.show();
+                });
+            });
+            document.getElementById('addCustomerForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Khách hàng đã được thêm thành công!');
+                const addModal = bootstrap.Modal.getInstance(document.getElementById('addCustomerModal'));
+                addModal.hide();
+                e.target.reset();
+            });
+
+            document.getElementById('editCustomerForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thông tin khách hàng đã được cập nhật!');
+                const editModal = bootstrap.Modal.getInstance(document.getElementById('editCustomerModal'));
+                editModal.hide();
+            });
+        });
+    </script>
+</body>
+</html>

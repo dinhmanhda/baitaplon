@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Sản Phẩm Văn Phòng Phẩm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        /* Custom Header */
+        .custom-header {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+        
+        .user-info {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .user-info .dropdown-menu {
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: none;
+        }
+        
+        .user-info .dropdown-item {
+            padding: 0.5rem 1rem;
+        }
+        
+        .user-info .dropdown-item i {
+            width: 20px;
+            text-align: center;
+            margin-right: 8px;
+        }
+        
+        /* Custom Navigation */
+        .custom-nav {
+            background-color: var(--dark-color);
+        }
+        
+        .custom-nav .nav-link {
+            color: white;
+            padding: 0.75rem 1.25rem;
+            transition: background-color 0.3s;
+        }
+        
+        .custom-nav .nav-link:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .custom-nav .nav-link.active {
+            background-color: var(--secondary-color);
+        }
+        
+        .custom-nav .nav-link i {
+            margin-right: 8px;
+        }
+        
+        /* Page Title */
+        .page-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-title i {
+            margin-right: 10px;
+        }
+        
+        /* Custom Cards */
+        .custom-card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .custom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        /* Custom Table */
+        .custom-table {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .custom-table thead th {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+        }
+        
+        .custom-table tbody tr:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status.active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status.inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .action-btn.edit {
+            color: var(--secondary-color);
+        }
+        
+        .action-btn.delete {
+            color: var(--accent-color);
+        }
+        
+        .action-btn:hover {
+            background-color: rgba(0,0,0,0.1);
+        }     
+        .custom-form {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+        }
+        
+        .custom-modal .modal-content {
+            border: none;
+            border-radius: 8px;
+        }
+        
+        .custom-modal .modal-header {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .custom-modal .modal-footer {
+            border-top: 1px solid #eee;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-logo img {
+            height: 60px;
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .btn-danger-custom {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-danger-custom:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+        @media (max-width: 768px) {
+            .dashboard-cards .col-md-3 {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="mainContent">
+        <header class="custom-header py-3">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="logo d-flex align-items-center">
+                        <img src="/IMG/logo.png" alt="Logo" width="100px" height="auto" class="me-2">
+                        <h1 class="text-white">Quản Lý Sản Phẩm</h1>
+                    </div>
+                    <div class="user-info dropdown">
+                        <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-2" style="font-size: 1.5rem;"></i>
+                            <span>Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Thông tin tài khoản</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Cài đặt</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="custom-nav navbar navbar-expand-lg">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon text-white"><i class="fas fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="quanlikhachhang.html"><i class="fas fa-file-invoice-dollar"></i>Khách Hàng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/User/sanpham.html"><i class="fas fa-box"></i> Sản Phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-file-invoice-dollar"></i> Hóa Đơn</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/User/home.html"><i class="action-icon"></i>Trở về với tư cách khách</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <main class="py-4">
+            <div class="container">
+                <h2 class="page-title"><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                <div class="row dashboard-cards g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card custom-card h-100 text-center p-3">
+                            <div class="card-icon"><i class="fas fa-box"></i></div>
+                            <h5 class="card-title text-muted">Tổng Sản Phẩm</h5>
+                            <h3 class="card-value">1,245</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card custom-card h-100 text-center p-3">
+                            <div class="card-icon"><i class="fas fa-users"></i></div>
+                            <h5 class="card-title text-muted">Nhân Viên</h5>
+                            <h3 class="card-value">24</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card custom-card h-100 text-center p-3">
+                            <div class="card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                            <h5 class="card-title text-muted">Hóa Đơn Hôm Nay</h5>
+                            <h3 class="card-value">56</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card custom-card h-100 text-center p-3">
+                            <div class="card-icon"><i class="fas fa-dollar-sign"></i></div>
+                            <h5 class="card-title text-muted">Doanh Thu</h5>
+                            <h3 class="card-value">12.450.000 đ</h3>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="page-title"><i class="fas fa-box"></i> Quản Lý Sản Phẩm</h2>
+                <div class="custom-form mb-4">
+                    <h3 class="mb-4">Thêm Sản Phẩm Mới</h3>
+                    <form id="addProductForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="productName" class="form-label">Tên Sản Phẩm</label>
+                                <input type="text" class="form-control" id="productName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="productCategory" class="form-label">Danh Mục</label>
+                                <select class="form-select" id="productCategory" required>
+                                    <option value="">Chọn danh mục</option>
+                                    <option value="1">Bút viết</option>
+                                    <option value="2">Giấy</option>
+                                    <option value="3">Dụng cụ văn phòng</option>
+                                    <option value="4">Bìa hồ sơ</option>
+                                    <option value="5">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="productPrice" class="form-label">Giá (VNĐ)</label>
+                                <input type="number" class="form-control" id="productPrice" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="productQuantity" class="form-label">Số Lượng</label>
+                                <input type="number" class="form-control" id="productQuantity" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="productImage" class="form-label">Hình Ảnh</label>
+                                <input type="file" class="form-control" id="productImage">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Mô Tả</label>
+                            <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary-custom"><i class="fas fa-plus me-2"></i>Thêm Sản Phẩm</button>
+                    </form>
+                </div>
+                <div class="table-responsive custom-table">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Danh Mục</th>
+                                <th>Giá</th>
+                                <th>Số Lượng</th>
+                                <th>Trạng Thái</th>
+                                <th>Hành Động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>VP001</td>
+                                <td>Bút bi Thiên Long TL-027</td>
+                                <td>Bút viết</td>
+                                <td>5,000 đ</td>
+                                <td>120</td>
+                                <td><span class="status active">Còn hàng</span></td>
+                                <td>
+                                    <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VP002</td>
+                                <td>Vở Campus 200 trang</td>
+                                <td>Giấy</td>
+                                <td>25,000 đ</td>
+                                <td>85</td>
+                                <td><span class="status active">Còn hàng</span></td>
+                                <td>
+                                    <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VP003</td>
+                                <td>Bút chì gỗ HB</td>
+                                <td>Bút viết</td>
+                                <td>3,000 đ</td>
+                                <td>0</td>
+                                <td><span class="status inactive">Hết hàng</span></td>
+                                <td>
+                                    <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VP004</td>
+                                <td>Tẩy Pentel</td>
+                                <td>Dụng cụ văn phòng</td>
+                                <td>8,000 đ</td>
+                                <td>45</td>
+                                <td><span class="status active">Còn hàng</span></td>
+                                <td>
+                                    <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VP005</td>
+                                <td>Thước kẻ 30cm</td>
+                                <td>Dụng cụ văn phòng</td>
+                                <td>10,000 đ</td>
+                                <td>32</td>
+                                <td><span class="status active">Còn hàng</span></td>
+                                <td>
+                                    <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VP006</td>
+                                <td>Bút dạ quang 4 màu</td>
+                                <td>Bút viết</td>
+                                <td>15,000 đ</td>
+                                <td>68</td>
+                                <td><span class="status active">Còn hàng</span></td>
+                                <td>
+                                    <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VP007</td>
+                                <td>Giấy note 3M</td>
+                                <td>Giấy</td>
+                                <td>12,000 đ</td>
+                                <td>90</td>
+                                <td><span class="status active">Còn hàng</span></td>
+                                <td>
+                                    <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VP008</td>
+                                <td>Kéo văn phòng</td>
+                                <td>Dụng cụ văn phòng</td>
+                                <td>25,000 đ</td>
+                                <td>42</td>
+                                <td><span class="status active">Còn hàng</span></td>
+                                <td>
+                                    <button class="btn btn-sm action-btn edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <div class="modal fade custom-modal" id="editProductModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Sửa Sản Phẩm</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editProductForm">
+                            <div class="mb-3">
+                                <label for="editProductName" class="form-label">Tên Sản Phẩm</label>
+                                <input type="text" class="form-control" id="editProductName" value="Bút bi Thiên Long TL-027" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="editProductCategory" class="form-label">Danh Mục</label>
+                                    <select class="form-select" id="editProductCategory" required>
+                                        <option value="1" selected>Bút viết</option>
+                                        <option value="2">Giấy</option>
+                                        <option value="3">Dụng cụ văn phòng</option>
+                                        <option value="4">Bìa hồ sơ</option>
+                                        <option value="5">Khác</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editProductPrice" class="form-label">Giá (VNĐ)</label>
+                                    <input type="number" class="form-control" id="editProductPrice" value="5000" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editProductQuantity" class="form-label">Số Lượng</label>
+                                <input type="number" class="form-control" id="editProductQuantity" value="120" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editProductDescription" class="form-label">Mô Tả</label>
+                                <textarea class="form-control" id="editProductDescription" rows="3">Bút bi Thiên Long TL-027 màu đen, ngòi 0.5mm</textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary-custom">Lưu Thay Đổi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade custom-modal" id="deleteProductModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Xác Nhận Xóa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
+                        <p class="fw-bold">Bút bi Thiên Long TL-027</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-danger-custom">Xóa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('addProductForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Sản phẩm đã được thêm thành công!');
+                e.target.reset();
+            });
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            const editButtons = document.querySelectorAll('.action-btn.edit');
+            editButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                    editModal.show();
+                });
+            });
+            const deleteButtons = document.querySelectorAll('.action-btn.delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteProductModal'));
+                    deleteModal.show();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

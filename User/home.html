@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Văn Phòng Việt - Văn phòng phẩm chất lượng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="website icon"  href="/IMG/logo.png" type="png">
+    <style>
+        :root {
+            --primary-color: #ff6b00;
+            --secondary-color: #3e413e;
+            --dark-color: #362f2f;
+            --light-color: #f7f3f3;
+            --text-color: #333;
+            --text-light: #666;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        .navbar {
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px 0;
+        }
+        
+        .navbar-brand img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--dark-color) !important;
+        }
+        
+        .action-icon {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .action-icon:hover {
+            color: var(--dark-color);
+            transform: scale(1.1);
+        }
+        .banner-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/IMG/anhbanner.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            color: white;
+        }
+        
+        .banner-title {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .banner-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .banner-btn {
+            background-color: var(--dark-color);
+            color: white;
+            border-radius: 25px;
+            padding: 10px 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .banner-btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .product-thumbnail {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin: 0 10px;
+            animation: floatAnimation 3s infinite ease-in-out;
+        }
+        
+        .product-thumbnail:nth-child(1) {
+            animation-delay: 0.5s;
+        }
+        
+        .product-thumbnail:nth-child(2) {
+            animation-delay: 1s;
+        }
+        
+        .product-thumbnail:nth-child(3) {
+            animation-delay: 1.5s;
+        }
+        
+        @keyframes floatAnimation {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        /* Products Section */
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .product-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .product-img {
+            height: 200px;
+            object-fit: contain;
+            padding: 20px;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            margin: 15px 0 5px;
+        }
+        
+        .product-desc {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        
+        /* Sale Section */
+        .sale-section {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .sale-off {
+            font-size: 8rem;
+            font-weight: 700;
+            line-height: 0.8;
+            color: var(--primary-color);
+        }
+        
+        .sale-text {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sale-image {
+            height: 100%;
+            min-height: 300px;
+            background: url('/IMG/giamgia.jpg') center/cover no-repeat;
+        }
+        
+        /* Testimonials */
+        .testimonial-section {
+            background-color: var(--light-color);
+            padding: 80px 0;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 0 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        
+        .slider-control {
+            width: 50px;
+            height: 50px;
+            background-color: var(--dark-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        .slider-control:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .slider-prev {
+            left: 0;
+        }
+        
+        .slider-next {
+            right: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-logo {
+            height: 60px;
+            width: auto;
+            margin-bottom: 20px;
+        }
+        
+        .footer-about p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 20px;
+        }
+        
+        .social-icon {
+            color: white;
+            font-size: 1.25rem;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-title {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-link {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+        
+        .contact-info {
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .contact-icon {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .newsletter-input {
+            background-color: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        
+        .newsletter-input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .newsletter-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #e05d00;
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 992px) {
+            .banner-title {
+                font-size: 2.5rem;
+            }
+            
+            .sale-off {
+                font-size: 6rem;
+            }
+            
+            .sale-text {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .banner-section {
+                text-align: center;
+                padding: 80px 0;
+            }
+            
+            .banner-title {
+                font-size: 2rem;
+            }
+            
+            .banner-subtitle {
+                font-size: 1rem;
+                margin: 0 auto 2rem;
+                max-width: 80%;
+            }
+            
+            .product-thumbnail {
+                max-width: 100px;
+                margin: 10px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .sale-off {
+                font-size: 4rem;
+            }
+            
+            .sale-text {
+                font-size: 1.5rem;
+            }
+            
+            .sale-image {
+                min-height: 200px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar-brand img {
+                height: 40px;
+            }
+            
+            .banner-title {
+                font-size: 1.75rem;
+            }
+            
+            .product-card {
+                margin-bottom: 20px;
+            }
+            
+            .testimonial-card {
+                padding: 20px;
+            }
+            
+            .footer {
+                padding: 40px 0 20px;
+            }
+            
+            .footer-logo {
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="/IMG/logo.png" alt="Văn Phòng Việt">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="home.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sanpham.html">Sản Phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="lienhe.html">Liên Hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ADMIN/quanlisanpham.html">Đăng nhập Admin</a>
+                    </li>
+                </ul>
+                <div class="d-flex ms-lg-3 mt-3 mt-lg-0">
+                    <a href="/ADMIN/dangki.html" class="action-icon">
+                        <i class='bx bx-user'></i>
+                    </a>
+                    <a href="giohang.html" class="action-icon">
+                        <i class='bx bx-cart'></i>
+                        <span class="cart-count badge bg-primary rounded-pill">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="banner-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="banner-title">VĂN PHÒNG VIỆT</h1>
+                    <p class="banner-subtitle">Lựa chọn hàng đầu trong học tập và công việc văn phòng</p>
+                    <button class="banner-btn">Mua ngay</button>
+                </div>
+                <div class="col-lg-6">
+                    <div class="d-flex justify-content-center">
+                        <img src="/IMG/anhbannernho1.jpeg" alt="Sản phẩm 1" class="product-thumbnail">
+                        <img src="/IMG/anhbannernho2.jpg" alt="Sản phẩm 2" class="product-thumbnail">
+                        <img src="/IMG/anhbannernho3.jpg" alt="Sản phẩm 3" class="product-thumbnail">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="py-5">
+        <div class="container py-5">
+            <h2 class="text-center section-title">Sản Phẩm Bán Chạy</h2>
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="product-card text-center p-4">
+                        <img src="/IMG/anhbutchi.jpg" alt="Bút chì" class="product-img mx-auto">
+                        <h3 class="product-name">Bút Chì 2B</h3>
+                        <p class="product-desc">Bút chì chất lượng cao</p>
+                        <div class="product-price">10.000đ</div>
+                        <button class="btn btn-sm btn-outline-primary mt-3 add-to-cart">Thêm vào giỏ</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="product-card text-center p-4">
+                        <img src="/IMG/imgsanrpham1.jpg" alt="Bút bi" class="product-img mx-auto">
+                        <h3 class="product-name">Bút Bi Thiên Long</h3>
+                        <p class="product-desc">Bút bi mực trơn</p>
+                        <div class="product-price">15.000đ</div>
+                        <button class="btn btn-sm btn-outline-primary mt-3 add-to-cart">Thêm vào giỏ</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="product-card text-center p-4">
+                        <img src="/IMG/imgvo200trang.jpg" alt="Vở 200 trang" class="product-img mx-auto">
+                        <h3 class="product-name">Tập Vở 200 Trang</h3>
+                        <p class="product-desc">Giấy trắng, dày dặn</p>
+                        <div class="product-price">25.000đ</div>
+                        <button class="btn btn-sm btn-outline-primary mt-3 add-to-cart">Thêm vào giỏ</button>
+                    </div>
+                </div>
+                
+               
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="product-card text-center p-4">
+                        <img src="/IMG/butxoaimg.jpg" alt="Bút xóa" class="product-img mx-auto">
+                        <h3 class="product-name">Bút Xóa</h3>
+                        <p class="product-desc">Xóa sạch, khô nhanh</p>
+                        <div class="product-price">20.000đ</div>
+                        <button class="btn btn-sm btn-outline-primary mt-3 add-to-cart">Thêm vào giỏ</button>
+                    </div>
+                </div>
+                
+                
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="product-card text-center p-4">
+                        <img src="/IMG/thuoc30cm.png" alt="Thước kẻ" class="product-img mx-auto">
+                        <h3 class="product-name">Thước Kẻ 30cm</h3>
+                        <p class="product-desc">Nhựa trong, chia cm rõ</p>
+                        <div class="product-price">12.000đ</div>
+                        <button class="btn btn-sm btn-outline-primary mt-3 add-to-cart">Thêm vào giỏ</button>
+                    </div>
+                </div>
+                
+                
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="product-card text-center p-4">
+                        <img src="/IMG/combovanphong.jpg" alt="Combo văn phòng" class="product-img mx-auto">
+                        <h3 class="product-name">Combo Văn Phòng</h3>
+                        <p class="product-desc">5 món tiện dụng</p>
+                        <div class="product-price">50.000đ</div>
+                        <button class="btn btn-sm btn-outline-primary mt-3 add-to-cart">Thêm vào giỏ</button>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    
+    <section class="sale-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 d-flex align-items-center justify-content-center text-center py-5">
+                    <div>
+                        <h2 class="sale-text">Giảm giá lên đến</h2>
+                        <div class="sale-off">30%</div>
+                    </div>
+                </div>
+                <div class="col-md-6 p-0">
+                    <div class="sale-image"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="text-center section-title">Nhận Xét Của Khách Hàng</h2>
+            
+            <div class="position-relative">
+                <div class="slider-control slider-prev">
+                    <i class='bx bx-chevron-left'></i>
+                </div>
+                <div class="row mx-0 testimonial-slider">
+                    
+                    <div class="col-md-4 px-3">
+                        <div class="testimonial-card">
+                            <div class="testimonial-avatar">
+                                <img src="/IMG/avatar.png" alt="Khách hàng 1">
+                            </div>
+                            <p class="testimonial-text">"Sản phẩm chất lượng tốt, giao hàng nhanh chóng. Tôi rất hài lòng với dịch vụ của cửa hàng."</p>
+                            <div class="text-primary fw-bold">Nguyễn Văn A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 px-3">
+                        <div class="testimonial-card">
+                            <div class="testimonial-avatar">
+                                <img src="/IMG/avatar.png" alt="Khách hàng 2">
+                            </div>
+                            <p class="testimonial-text">"Sản Phẩm đa dạng, dịch vụ giao hàng rất nhanh chóng 1-2 ngày đã nhận được hàng trong tay."</p>
+                            <div class="text-primary fw-bold">Trần Thị B</div>
+                        </div>
+                    </div>
+                    
+                   
+                    <div class="col-md-4 px-3">
+                        <div class="testimonial-card">
+                            <div class="testimonial-avatar">
+                                <img src="/IMG/avatar.png" alt="Khách hàng 3">
+                            </div>
+                            <p class="testimonial-text">"Dịch vụ rất tốt sản phẩm phù hợp với học sinh, sinh viên giá cả hợp lý với chất lượng."</p>
+                            <div class="text-primary fw-bold">Lê Văn C</div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-md-4 px-3">
+                        <div class="testimonial-card">
+                            <div class="testimonial-avatar">
+                                <img src="/IMG/avatar.png" alt="Khách hàng 4">
+                            </div>
+                            <p class="testimonial-text">"Dịch vụ rất tốt, nhân viên tư vấn nhiệt tình. Tôi sẽ tiếp tục ủng hộ cửa hàng trong tương lai."</p>
+                            <div class="text-primary fw-bold">Phạm Thị D</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-control slider-next">
+                    <i class='bx bx-chevron-right'></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <!-- About Column -->
+                <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                    <img src="/IMG/logo.png" alt="Văn Phòng Việt" class="footer-logo">
+                    <p class="footer-about">Chuyên cung cấp các sản phẩm văn phòng phẩm chất lượng cao với giá cả hợp lý, phục vụ mọi nhu cầu học tập và làm việc.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class='bx bxl-facebook'></i></a>
+                        <a href="#" class="social-icon"><i class='bx bxl-instagram'></i></a>
+                        <a href="#" class="social-icon"><i class='bx bxl-twitter'></i></a>
+                        <a href="#" class="social-icon"><i class='bx bxl-youtube'></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links Column -->
+                <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+                    <h3 class="footer-title">Liên kết</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Trang chủ</a></li>
+                        <li><a href="#" class="footer-link">Sản phẩm</a></li>
+                        <li><a href="#" class="footer-link">Giới thiệu</a></li>
+                        <li><a href="#" class="footer-link">Tin tức</a></li>
+                        <li><a href="#" class="footer-link">Liên hệ</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Column -->
+                <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+                    <h3 class="footer-title">Liên hệ</h3>
+                    <div class="contact-info">
+                        <p><i class='bx bx-map contact-icon'></i> Tân Lập, Thanh Sơn, Phú Thọ</p>
+                        <p><i class='bx bx-phone contact-icon'></i> 0333 106 862</p>
+                        <p><i class='bx bx-envelope contact-icon'></i> linhdgea1106@gmail.com</p>
+                    </div>
+                </div>
+                
+                <!-- Newsletter Column -->
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="footer-title">Đăng ký nhận tin</h3>
+                    <p class="text-white-50 mb-3">Đăng ký để nhận thông tin khuyến mãi mới nhất</p>
+                    <form class="newsletter-form">
+                        <input type="email" class="newsletter-input mb-2" placeholder="Nhập email của bạn">
+                        <button type="submit" class="newsletter-btn">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="text-center copyright">
+                <p>&copy; Văn Phòng Việt. </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Boxicons -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Navbar scroll effect
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 100) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
+            
+            let currentSlide = 0;
+            const $slider = $('.testimonial-slider');
+            const slideCount = $slider.children().length;
+            const visibleSlides = $(window).width() < 768 ? 1 : $(window).width() < 992 ? 2 : 3;
+            
+            function updateSlider() {
+                const translateX = -currentSlide * (100 / visibleSlides);
+                $slider.css('transform', `translateX(${translateX}%)`);
+                $('.slider-prev').toggle(currentSlide > 0);
+                $('.slider-next').toggle(currentSlide < slideCount - visibleSlides);
+            }
+            
+            $('.slider-next').click(function() {
+                if (currentSlide < slideCount - visibleSlides) {
+                    currentSlide++;
+                    updateSlider();
+                }
+            });
+            
+            $('.slider-prev').click(function() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlider();
+                }
+            });
+            $(window).resize(function() {
+                const newVisibleSlides = $(window).width() < 768 ? 1 : $(window).width() < 992 ? 2 : 3;
+                if (newVisibleSlides !== visibleSlides) {
+                    currentSlide = 0;
+                    updateSlider();
+                }
+            });
+            updateSlider();
+            $('.add-to-cart').click(function() {
+                const $product = $(this).closest('.product-card');
+                const productName = $product.find('.product-name').text();
+                const productPrice = $product.find('.product-price').text();
+                alert(`Đã thêm ${productName} (${productPrice}) vào giỏ hàng`);
+                const $cartCount = $('.cart-count');
+                let count = parseInt($cartCount.text()) || 0;
+                $cartCount.text(count + 1).addClass('animate__animated animate__bounce');
+                setTimeout(() => {
+                    $cartCount.removeClass('animate__animated animate__bounce');
+                }, 1000);
+            });
+            $('.banner-btn').click(function() {
+                $('html, body').animate({
+                    scrollTop: $('.section-title').offset().top - 100
+                }, 800);
+            });
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                const target = $(this.getAttribute('href'));
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 100
+                    }, 800);
+                }
+            });
+            $('.newsletter-form').submit(function(e) {
+                e.preventDefault();
+                const email = $(this).find('input[type="email"]').val();
+                if (isValidEmail(email)) {
+                    alert('Cảm ơn bạn đã đăng ký nhận bản tin!');
+                    $(this).find('input[type="email"]').val('');
+                } else {
+                    alert('Vui lòng nhập địa chỉ email hợp lệ!');
+                }
+            });
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+        });
+    </script>
+</body>
+</html>
